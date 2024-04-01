@@ -8,3 +8,9 @@ export type VideoItem = {
     publicationDate: string;
     availableResolutions: string[];
 };
+
+export type RequestBody = {
+  title: string;
+  author: string;
+  availableResolutions: string[];
+};
