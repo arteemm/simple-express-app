@@ -25,19 +25,48 @@ const checkAvailableResolutions = (arr) => {
         return false;
     return true;
 };
+const message = {
+    errorsMessages: [
+        {
+            message: '',
+            field: '',
+        }
+    ]
+};
+const isProps = (requestObject) => {
+    const { title, author, availableResolutions } = requestObject;
+    if (!title || typeof title !== 'string') {
+        const res = { status: false, objError: { errorsMessages: [{ message: 'title is not defined or it is\' not sting', field: 'title is wrong' }] } };
+        return res;
+    }
+    if (!author || typeof author !== 'string') {
+        const res = { status: false, objError: { errorsMessages: [{ message: 'author is not defined or it is\' not sting', field: 'author is wrong' }] } };
+        return res;
+    }
+    if (!availableResolutions.length || !Array.isArray(availableResolutions)) {
+        const res = { status: false, objError: { errorsMessages: [{ message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions is wrong' }] } };
+        return res;
+    }
+    return { status: true, objError: {} };
+    ;
+};
 const postValidation = (requestObject) => {
+    const checkProps = isProps(requestObject);
+    if (!checkProps.status) {
+        return checkProps;
+    }
     if (!checkMaxLength(requestObject.title, 40)) {
-        const res = { status: false, message: 'max length is 40 letters', field: 'title is wrong' };
+        const res = { status: false, objError: { errorsMessages: [{ message: 'max length is 40 letters', field: 'title is wrong' }] } };
         return res;
     }
     if (!checkMaxLength(requestObject.author, 20)) {
-        const res = { status: false, message: 'max length is 20 letters', field: 'author is wrong' };
+        const res = { status: false, objError: { errorsMessages: [{ message: 'max length is 20 letters', field: 'author is wrong' }] } };
         return res;
     }
     if (!checkAvailableResolutions(requestObject.availableResolutions)) {
-        const res = { status: false, message: 'wrong video quality', field: 'availableResolutions is wrong' };
+        const res = { status: false, objError: { errorsMessages: [{ message: 'wrong video quality', field: 'availableResolutions is wrong' }] } };
         return res;
     }
-    return { status: true, message: 'it\'s ok', field: '' };
+    return { status: true, objError: {} };
 };
 exports.postValidation = postValidation;
