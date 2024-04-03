@@ -7,7 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.20.2",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "scripts": {
     "dev": "yarn nodemon --inspect dist/index.js",
