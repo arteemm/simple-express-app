@@ -3,7 +3,7 @@ export type VideoItem = {
     title: string;
     author: string;
     canBeDownloaded: boolean;
-    minAgeRestriction: null;
+    minAgeRestriction: number | null;
     createdAt: string;
     publicationDate: string;
     availableResolutions: string[];
@@ -13,4 +13,11 @@ export type RequestBody = {
   title: string;
   author: string;
   availableResolutions: string[];
+};
+
+export type RequestPutBody = {
+  title: string;
+  author: string;
+  availableResolutions: string[];
+  minAgeRestriction: number | null;
 };

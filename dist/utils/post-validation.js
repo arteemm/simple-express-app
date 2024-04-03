@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postValidation = void 0;
 const checkMaxLength = (par, maxLength) => {
+    if (par === null) {
+        return true;
+    }
     if (par.length > maxLength) {
         return false;
     }
@@ -20,6 +23,9 @@ var AvailableResolutions;
 })(AvailableResolutions || (AvailableResolutions = {}));
 ;
 const checkAvailableResolutions = (arr) => {
+    if (arr === null) {
+        return true;
+    }
     const wrongArr = arr.filter(item => Object.keys(AvailableResolutions).indexOf(item) < 0);
     if (wrongArr.length > 0)
         return false;
@@ -35,15 +41,15 @@ const message = {
 };
 const isProps = (requestObject) => {
     const { title, author, availableResolutions } = requestObject;
-    if (!title || typeof title !== 'string') {
+    if ((!title || typeof title !== 'string') && title !== null) {
         const res = { status: false, objError: { errorsMessages: [{ message: 'title is not defined or it is\' not sting', field: 'title is wrong' }] } };
         return res;
     }
-    if (!author || typeof author !== 'string') {
+    if ((!author || typeof author !== 'string') && author !== null) {
         const res = { status: false, objError: { errorsMessages: [{ message: 'author is not defined or it is\' not sting', field: 'author is wrong' }] } };
         return res;
     }
-    if (!availableResolutions.length || !Array.isArray(availableResolutions)) {
+    if ((!(availableResolutions === null || availableResolutions === void 0 ? void 0 : availableResolutions.length) || !Array.isArray(availableResolutions)) && author !== null) {
         const res = { status: false, objError: { errorsMessages: [{ message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions is wrong' }] } };
         return res;
     }

@@ -1,6 +1,10 @@
 import { RequestBody } from '../types';
 
 const checkMaxLength = (par: string, maxLength: number) => {
+    if (par === null) {
+        return true;
+    }
+
     if (par.length > maxLength) {
         return false;
     }
@@ -20,6 +24,10 @@ enum AvailableResolutions {
   };
 
 const checkAvailableResolutions = (arr: string[]) => {
+    if (arr === null) {
+        return true;
+    }
+
     const wrongArr = arr.filter(item => Object.keys(AvailableResolutions).indexOf(item) < 0);
 
     if (wrongArr.length > 0) return false;
@@ -39,17 +47,17 @@ const message = {
 
 const isProps = (requestObject: RequestBody) => {
     const {title, author, availableResolutions } = requestObject;
-    if (!title || typeof title !== 'string') {
+    if ((!title  || typeof title !== 'string') && title !== null) {
         const res = {status: false, objError: { errorsMessages: [{message: 'title is not defined or it is\' not sting', field: 'title is wrong'}] }};
-        return res; 
+        return res;
     }
 
-    if (!author || typeof author !== 'string') {
+    if ((!author || typeof author !== 'string') && author !== null) {
         const res = {status: false, objError: { errorsMessages: [{message: 'author is not defined or it is\' not sting', field: 'author is wrong'}] }};
         return res; 
     }
 
-    if (!availableResolutions.length || !Array.isArray(availableResolutions)) {
+    if ((!availableResolutions?.length || !Array.isArray(availableResolutions)) && author !== null) {
         const res = {status: false, objError: { errorsMessages: [{message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions is wrong'}] }};
         return res; 
     }
