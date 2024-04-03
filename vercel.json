@@ -2,7 +2,7 @@
     "version": 2,
     "name": "simple-express-app",
     "builds": [
-       { "src": "app.js", "use": "./src/index.ts" }
+       { "src": "dist/index.js", "use": "./src/index.ts" }
     ],
     "routes": [
        { "src": "/(.*)", "dest": "./src/index.ts" }
