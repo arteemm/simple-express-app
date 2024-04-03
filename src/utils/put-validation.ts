@@ -18,12 +18,12 @@ export const putValidation = (requestObject: RequestPutBody) => {
 
     const {minAgeRestriction, canBeDownloaded } = requestObject;
 
-    if ((!minAgeRestriction  || typeof minAgeRestriction !== 'number') && minAgeRestriction !== null) {
+    if ((minAgeRestriction && typeof minAgeRestriction !== 'number') && minAgeRestriction !== null) {
         checkProps.status = false;
         checkProps.objError.errorsMessages.push({message: 'minAgeRestriction is not defined or it is\' not sting', field: 'minAgeRestriction'});
     }
 
-    if (!canBeDownloaded || typeof canBeDownloaded !== 'boolean') {
+    if (canBeDownloaded && typeof canBeDownloaded !== 'boolean') {
         checkProps.status = false;
         checkProps.objError.errorsMessages.push({message: 'canBeDownloaded is not defined or it is\' not boolean', field: 'canBeDownloaded'});
     }
