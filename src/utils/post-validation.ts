@@ -1,10 +1,6 @@
 import { RequestBody } from '../types';
 
 const checkMaxLength = (par: string, maxLength: number) => {
-    if (par === null) {
-        return true;
-    }
-
     if (par.length > maxLength) {
         return false;
     }
@@ -47,17 +43,17 @@ const message = {
 
 const isProps = (requestObject: RequestBody) => {
     const {title, author, availableResolutions } = requestObject;
-    if ((!title  || typeof title !== 'string') && title !== null) {
+    if (!title  || typeof title !== 'string') {
         const res = {status: false, objError: { errorsMessages: [{message: 'title is not defined or it is\' not sting', field: 'title is wrong'}] }};
         return res;
     }
 
-    if ((!author || typeof author !== 'string') && author !== null) {
+    if (!author || typeof author !== 'string') {
         const res = {status: false, objError: { errorsMessages: [{message: 'author is not defined or it is\' not sting', field: 'author is wrong'}] }};
         return res; 
     }
 
-    if ((!availableResolutions?.length || !Array.isArray(availableResolutions)) && author !== null) {
+    if ((!availableResolutions?.length || !Array.isArray(availableResolutions)) && availableResolutions !== null) {
         const res = {status: false, objError: { errorsMessages: [{message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions is wrong'}] }};
         return res; 
     }
