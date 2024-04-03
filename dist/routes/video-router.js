@@ -1,31 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.videosRouter = void 0;
+exports.videoItems = exports.videosRouter = void 0;
 const express_1 = require("express");
 const post_validation_1 = require("../utils/post-validation");
+const put_validation_1 = require("../utils/put-validation");
 exports.videosRouter = (0, express_1.Router)({});
 const videoItem = {
     id: 0,
     title: "string",
     author: "string",
-    canBeDownloaded: true,
+    canBeDownloaded: false,
     minAgeRestriction: null,
     createdAt: "2024-04-01T17:14:43.869Z",
     publicationDate: "2024-04-01T17:14:43.869Z",
     availableResolutions: ['P144'],
 };
-const videoItems = [videoItem];
+exports.videoItems = [videoItem];
 exports.videosRouter.get('/', (req, res) => {
-    res.send(videoItems);
+    res.send(exports.videoItems);
 });
 exports.videosRouter.get('/:id', (req, res) => {
     const id = +req.params.id;
-    const item = videoItems.find(item => item.id === id);
+    const item = exports.videoItems.find(item => item.id === id);
     if (!item && item !== 0) {
         res.send(404);
         return;
     }
-    res.send(videoItems[id]);
+    res.send(exports.videoItems[id]);
 });
 exports.videosRouter.post('/', (req, res) => {
     const { title, author, availableResolutions } = req.body;
@@ -38,7 +39,7 @@ exports.videosRouter.post('/', (req, res) => {
     const publicationDate = new Date();
     publicationDate.setDate(publicationDate.getDate() + 1);
     const newVideo = {
-        id: videoItems.length,
+        id: exports.videoItems.length,
         title,
         author,
         canBeDownloaded: false,
@@ -47,48 +48,37 @@ exports.videosRouter.post('/', (req, res) => {
         publicationDate: publicationDate.toJSON(),
         availableResolutions,
     };
-    videoItems.push(newVideo);
+    exports.videoItems.push(newVideo);
     res.status(201).send(newVideo);
 });
 exports.videosRouter.put('/:id', (req, res) => {
     const id = +req.params.id;
-    const item = videoItems.find(item => item.id === id);
+    const item = exports.videoItems.find(item => item.id === id);
     if (!item && item !== 0) {
         res.send(404);
         return;
     }
     const { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
-    if (!title || !author || !availableResolutions.length || !minAgeRestriction || !publicationDate || !canBeDownloaded) {
-        const message = {
-            errorsMessages: [
-                {
-                    message: "string",
-                    field: "string"
-                }
-            ]
-        };
-        res.status(400).send(message);
+    const checkRequest = (0, put_validation_1.putValidation)({ title, author, availableResolutions, minAgeRestriction });
+    if (!checkRequest.status) {
+        res.status(400).send(checkRequest.objError);
         return;
     }
-    videoItems[id].title = title;
-    videoItems[id].author = author;
-    videoItems[id].availableResolutions = availableResolutions;
-    videoItems[id].canBeDownloaded = canBeDownloaded;
-    videoItems[id].minAgeRestriction = minAgeRestriction;
-    videoItems[id].publicationDate = publicationDate;
+    exports.videoItems[id].title = title;
+    exports.videoItems[id].author = author;
+    exports.videoItems[id].availableResolutions = availableResolutions;
+    exports.videoItems[id].canBeDownloaded = canBeDownloaded;
+    exports.videoItems[id].minAgeRestriction = minAgeRestriction;
+    exports.videoItems[id].publicationDate = publicationDate;
     res.send(204);
 });
 exports.videosRouter.delete('/:id', (req, res) => {
     const id = +req.params.id;
-    const item = videoItems.find(item => item.id === id);
+    const item = exports.videoItems.find(item => item.id === id);
     if (!item && item !== 0) {
         res.send(404);
         return;
     }
-    videoItems.splice(id, 1);
-    res.send(204);
-});
-exports.videosRouter.delete('/', (req, res) => {
-    videoItems.length = 0;
+    exports.videoItems.splice(id, 1);
     res.send(204);
 });
