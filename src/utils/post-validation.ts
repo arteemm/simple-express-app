@@ -31,56 +31,67 @@ const checkAvailableResolutions = (arr: string[]) => {
     return true;
 };
 
-const message = {
-    errorsMessages: [
-      {
-        message: '',
-        field: '',
-      }
-    ]
-  }
+type Message = {
+    status: boolean;
+    objError: {
+        errorsMessages: [{message: string, field: string}]
+    }
+};
 
+const message: Message = {
+    status: true,
+    objError: {
+        errorsMessages: [
+            {
+                message : "string",
+                field : "string"
+            }
+        ]
+    }
+};
+
+message.objError.errorsMessages.splice(0, 1);
 
 const isProps = (requestObject: RequestBody) => {
     const {title, author, availableResolutions } = requestObject;
     if (!title  || typeof title !== 'string') {
-        const res = {status: false, objError: { errorsMessages: [{message: 'title is not defined or it is\' not sting', field: 'title is wrong'}] }};
-        return res;
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'title is not defined or it is\' not sting', field: 'title'});
     }
 
     if (!author || typeof author !== 'string') {
-        const res = {status: false, objError: { errorsMessages: [{message: 'author is not defined or it is\' not sting', field: 'author is wrong'}] }};
-        return res; 
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'author is not defined or it is\' not sting', field: 'author'});
     }
 
     if ((!availableResolutions?.length || !Array.isArray(availableResolutions)) && availableResolutions !== null) {
-        const res = {status: false, objError: { errorsMessages: [{message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions is wrong'}] }};
-        return res; 
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions'});
     }
-
-    return {status: true, objError: {}};;
 };
 
 export const postValidation = (requestObject: RequestBody) => {
-    const checkProps = isProps(requestObject);
-    if (!checkProps.status) {
-        return checkProps;
+    message.objError.errorsMessages.splice(0, 1);
+     isProps(requestObject);
+
+    if (!message.status) {
+        return message;
     }
 
     if (!checkMaxLength(requestObject.title, 40)) {
-        const res = {status: false, objError: { errorsMessages: [{message: 'max length is 40 letters', field: 'title is wrong'}] }};
-        return res; 
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'max length is 40 letters', field: 'title'}); 
     }
 
     if (!checkMaxLength(requestObject.author, 20)) {
-        const res = {status: false, objError: { errorsMessages: [{message: 'max length is 20 letters', field: 'author is wrong'}] }};
-        return res; 
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'max length is 20 letters', field: 'author'}); 
     }
 
     if (!checkAvailableResolutions(requestObject.availableResolutions)) {
-        const res = {status: false, objError: { errorsMessages: [{message: 'wrong video quality', field: 'availableResolutions is wrong'}] }};
-        return res; 
+        message.status = false;
+        message.objError.errorsMessages.push({message: 'wrong video quality', field: 'availableResolutions'});
     }
 
-    return {status: true, objError: {}};
+    return message;
 };
