@@ -59,7 +59,7 @@ exports.videosRouter.put('/:id', (req, res) => {
         return;
     }
     const { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
-    const checkRequest = (0, put_validation_1.putValidation)({ title, author, availableResolutions, minAgeRestriction });
+    const checkRequest = (0, put_validation_1.putValidation)({ title, author, availableResolutions, minAgeRestriction, canBeDownloaded });
     if (!checkRequest.status) {
         res.status(400).send(checkRequest.objError);
         return;
