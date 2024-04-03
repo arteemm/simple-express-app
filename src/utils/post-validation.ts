@@ -74,7 +74,7 @@ export const postValidation = (requestObject: RequestBody) => {
     message.objError.errorsMessages.splice(0);
      isProps(requestObject);
 
-    if (!message.status) {
+    if (!message.status && message.objError.errorsMessages.length) {
         return message;
     }
 

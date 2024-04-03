@@ -58,7 +58,7 @@ const isProps = (requestObject) => {
 const postValidation = (requestObject) => {
     message.objError.errorsMessages.splice(0);
     isProps(requestObject);
-    if (!message.status) {
+    if (!message.status && message.objError.errorsMessages.length) {
         return message;
     }
     if (!checkMaxLength(requestObject.title, 40)) {
