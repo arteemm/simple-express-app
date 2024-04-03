@@ -2,9 +2,9 @@
     "version": 2,
     "name": "simple-express-app",
     "builds": [
-       { "src": "dist/index.js", "use": "./src/index.ts" }
+       { "src": "dist/index.js", "use": "@vercel/node", "config": { "includeFiles": ["dist/**"] }}
     ],
     "routes": [
-       { "src": "/(.*)", "dest": "./src/index.ts" }
+       { "src": "/(.*)", "dest": "dist/index.js" }
     ]
  }
