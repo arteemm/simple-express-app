@@ -31,25 +31,20 @@ exports.videosRouter.post('/', (req, res) => {
     const { title, author, availableResolutions } = req.body;
     const checkRequest = (0, post_validation_1.postValidation)({ title, author, availableResolutions });
     if (!checkRequest.status) {
-        const message = {
-            errorsMessages: [
-                {
-                    message: checkRequest.message,
-                    field: checkRequest.field,
-                }
-            ]
-        };
-        res.status(400).send(message);
+        res.status(400).send(checkRequest.objError);
         return;
     }
+    const date = new Date();
+    const publicationDate = new Date();
+    publicationDate.setDate(publicationDate.getDate() + 1);
     const newVideo = {
         id: videoItems.length,
         title,
         author,
-        canBeDownloaded: true,
+        canBeDownloaded: false,
         minAgeRestriction: null,
-        createdAt: '1',
-        publicationDate: '2',
+        createdAt: date.toJSON(),
+        publicationDate: publicationDate.toJSON(),
         availableResolutions,
     };
     videoItems.push(newVideo);
