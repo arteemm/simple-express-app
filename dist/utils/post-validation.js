@@ -56,7 +56,7 @@ const isProps = (requestObject) => {
     }
 };
 const postValidation = (requestObject) => {
-    message.objError.errorsMessages.splice(0, 1);
+    message.objError.errorsMessages.splice(0);
     isProps(requestObject);
     if (!message.status) {
         return message;
