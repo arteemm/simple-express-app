@@ -75,7 +75,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
   }
 
   const { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
-  const checkRequest = putValidation({title, author, availableResolutions, minAgeRestriction, canBeDownloaded });
+  const checkRequest = putValidation({title, author, availableResolutions, minAgeRestriction, canBeDownloaded, publicationDate });
 
   if (!checkRequest.status) {
     res.status(400).send(checkRequest.objError);

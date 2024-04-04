@@ -21,4 +21,5 @@ export type RequestPutBody = {
   availableResolutions: string[];
   minAgeRestriction: number | null;
   canBeDownloaded: boolean;
+  publicationDate: string;
 };

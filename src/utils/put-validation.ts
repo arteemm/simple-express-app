@@ -16,7 +16,7 @@ const checkAge = (param: number | null, max: number, min: number) => {
 export const putValidation = (requestObject: RequestPutBody) => {
     const checkProps = postValidation(requestObject);
 
-    const {minAgeRestriction, canBeDownloaded } = requestObject;
+    const {minAgeRestriction, canBeDownloaded, publicationDate } = requestObject;
 
     if ((minAgeRestriction && typeof minAgeRestriction !== 'number') && minAgeRestriction !== null) {
         checkProps.status = false;
@@ -26,6 +26,11 @@ export const putValidation = (requestObject: RequestPutBody) => {
     if (canBeDownloaded && typeof canBeDownloaded !== 'boolean') {
         checkProps.status = false;
         checkProps.objError.errorsMessages.push({message: 'canBeDownloaded is not defined or it is\' not boolean', field: 'canBeDownloaded'});
+    }
+
+    if (publicationDate && typeof publicationDate !== 'string') {
+        checkProps.status = false;
+        checkProps.objError.errorsMessages.push({message: 'publicationDate is not defined or it is\' not string', field: 'publicationDate'});
     }
 
     if (!checkAge(requestObject.minAgeRestriction, 18, 1)) {
