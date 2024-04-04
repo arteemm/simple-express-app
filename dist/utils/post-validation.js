@@ -28,50 +28,34 @@ const checkAvailableResolutions = (arr) => {
         return false;
     return true;
 };
-const message = {
-    status: true,
-    objError: {
-        errorsMessages: [
-            {
-                message: "string",
-                field: "string"
-            }
-        ]
-    }
-};
-message.objError.errorsMessages.splice(0, 1);
-const isProps = (requestObject) => {
-    const { title, author, availableResolutions } = requestObject;
-    if (!title || typeof title !== 'string') {
-        message.status = false;
-        message.objError.errorsMessages.push({ message: 'title is not defined or it is\' not sting', field: 'title' });
-    }
-    if (!author || typeof author !== 'string') {
-        message.status = false;
-        message.objError.errorsMessages.push({ message: 'author is not defined or it is\' not sting', field: 'author' });
-    }
-    if ((!(availableResolutions === null || availableResolutions === void 0 ? void 0 : availableResolutions.length) || !Array.isArray(availableResolutions)) && availableResolutions !== null) {
-        message.status = false;
-        message.objError.errorsMessages.push({ message: 'availableResolutions is not defined or it is\' not array', field: 'availableResolutions' });
-    }
-};
 const postValidation = (requestObject) => {
+    const message = {
+        status: true,
+        objError: {
+            errorsMessages: [
+                {
+                    message: "string",
+                    field: "string"
+                }
+            ]
+        }
+    };
     message.objError.errorsMessages.splice(0);
-    isProps(requestObject);
+    const { title, author, availableResolutions } = requestObject;
     if (!message.status && message.objError.errorsMessages.length) {
         return message;
     }
-    if (!checkMaxLength(requestObject.title, 40)) {
+    if (!title || typeof title !== 'string' || !checkMaxLength(requestObject.title, 40)) {
         message.status = false;
-        message.objError.errorsMessages.push({ message: 'max length is 40 letters', field: 'title' });
+        message.objError.errorsMessages.push({ message: 'title is not valid', field: 'title' });
     }
-    if (!checkMaxLength(requestObject.author, 20)) {
+    if (!author || typeof author !== 'string' || !checkMaxLength(requestObject.author, 20)) {
         message.status = false;
-        message.objError.errorsMessages.push({ message: 'max length is 20 letters', field: 'author' });
+        message.objError.errorsMessages.push({ message: 'author is not valid', field: 'author' });
     }
-    if (!checkAvailableResolutions(requestObject.availableResolutions)) {
+    if (((!(availableResolutions === null || availableResolutions === void 0 ? void 0 : availableResolutions.length) || !Array.isArray(availableResolutions)) && availableResolutions !== null) || !checkAvailableResolutions(requestObject.availableResolutions)) {
         message.status = false;
-        message.objError.errorsMessages.push({ message: 'wrong video quality', field: 'availableResolutions' });
+        message.objError.errorsMessages.push({ message: 'availableResolutions is not valid', field: 'availableResolutions' });
     }
     return message;
 };
